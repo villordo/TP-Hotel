@@ -5,7 +5,6 @@ public class Consumo {
 	private String nombre;
 	private float precio;
 	
-	
 	public Consumo(int idArticulo, String nombre, float precio){
 		this.idArticulo=idArticulo;
 		this.nombre=nombre;
