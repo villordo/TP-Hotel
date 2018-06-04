@@ -4,6 +4,7 @@ public class Consumo {
 	private int idArticulo;
 	private String nombre;
 	private float precio;
+	private String prueba;
 	
 	
 	public Consumo(int idArticulo, String nombre, float precio){
