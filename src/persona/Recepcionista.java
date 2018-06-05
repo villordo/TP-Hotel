@@ -65,7 +65,7 @@ public int hacerUnaReserva(ArrayList<Habitacion> reserva,Date fecha_inic,Date fe
  */
 public ArrayList<String> elegirHabitaciones(ArrayList<Habitaciones> habDisponibles,int cantPersonas)
 {
-	
+//asdasad	
 }
 
 }
