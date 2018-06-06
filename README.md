@@ -1,13 +1,7 @@
-﻿*Esta herramienta digital forma parte del catálogo de herramientas del **Banco Interamericano de Desarrollo**. Puedes conocer más sobre la iniciativa del BID en [code.iadb.org](code.iadb.org)*
-
-## Plantilla de Documentación de Soporte y Uso de herramientas digitales
-
-### Nombre
-### Descripción y contexto
+﻿### T.P Hotel
+### Sistema de administración de un Hotel
 ---
-Esto es un archivo README. Debe contener la documentación de soporte uso de la herramienta digital. Las siguientes secciones son las secciones recomendadas que debes poner incluir en cualquier herramienta digital. Puedes descargar este archivo para que te sirva como plantilla.
-
-Asegúrate de empezar este archivo con una breve descripción sobre las funcionalidades y contexto de la herramienta digital. Sé conciso y al grano.
+El sistema organiza un Hotel,administrando sus Habitaciones y los Clientes.Permite *realizar reservas,checkin,checkout* de dichos Clientes.Posee un sistema de logeo con usuario y contraseña, el cual dependiendo de quien se trate(Recepcionista o Administrador) podrá accerder a diferentes funcionalidades como las de *listar habitaciones* hasta *crear nuevos Usuarios*.
 
 ### Guía de usuario
 ---
