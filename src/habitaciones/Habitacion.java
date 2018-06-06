@@ -21,7 +21,7 @@ public abstract class Habitacion {
 	{
 		return precio;
 	}
-
+	
 	public boolean getEstado()
 	{
 		return estado;
@@ -38,4 +38,8 @@ public abstract class Habitacion {
 
 	public abstract String toString();
 
+	public String mostrarHab()
+	{
+		return "Nro Habitacion:"+nroHabitacion+"\nPrecio:"+precio+"\nCapacidad:"+capacidad;
+	}
 }
