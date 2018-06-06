@@ -8,9 +8,9 @@ import habitaciones.Habitacion;
 
 
 public class Reserva {
-	private Date fechaEntrada;
-	private Date fechaSalida;
-	private ArrayList<Habitacion> habitaciones;
+	public Date fechaEntrada;
+	public Date fechaSalida;
+	public ArrayList<Habitacion> habitaciones;
 	private ArrayList<Consumo> consumos;
 	private int idCliente;
 	private int idReserva;

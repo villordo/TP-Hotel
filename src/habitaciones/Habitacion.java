@@ -1,7 +1,7 @@
 package habitaciones;
 
 public abstract class Habitacion {
-	protected int nroHabitacion;
+	public int nroHabitacion;
 	protected float precio;
 	protected int capacidad;
 	protected boolean estado;
