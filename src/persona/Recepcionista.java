@@ -64,14 +64,12 @@ public int hacerUnaReserva(ArrayList<Habitacion> reserva,Date fecha_inic,Date fe
  * @param cantPersonas : cantidad de personas que se desean alojar en el Hotel.
  * @return un ArrayList con las habitaciones elegidas por el Usuario.
  */
-public ArrayList<String> elegirHabitaciones(ArrayList<Hab> r,int cantPersonas)
-{
-	
-}
+public ArrayList<String> elegirHabitaciones(ArrayList<Hab> r,int cantPersonas);
+
  public ArrayList<Integer> buscarDisponibles(ArrayList<Reserva> reservas,ArrayList<Habitacion> habitaciones,Date fecha_inic,Date fecha_fin)
  {
 	 int i=0;
-	 Date fechaActual;
+	 Date fechaActual=new Date();
 	 ArrayList<Integer> auxHab = new ArrayList<Integer>();
 	 
 	 for(i=0;i<habitaciones.size();i++)        //aca crea un array auxiliar con los nuemero de las habitaciones.Para luego retornar las que quedan disponibles.
@@ -87,18 +85,12 @@ public ArrayList<String> elegirHabitaciones(ArrayList<Hab> r,int cantPersonas)
 	 {
 		 auxReserva = reservas.get(i);
 		 
-		 if((fecha_inic < auxReserva.fechaEntrada && fecha_fin < auxReserva.fechaSalida) && (fecha_inic >= fechaActual )) //si el periodo ingresado se encuentra antes al que contiene la reserva
+		 if(!((fecha_inic.compareTo(auxReserva.fechaEntrada) < 0) && (fecha_fin.compareTo(auxReserva.fechaEntrada) < 0) && (fecha_inic.compareTo(fechaActual) >= 0))) //si el periodo ingresado se encuentra antes al que contiene la reserva
 		 {
 			 //en este caso las nuevas fechas ingresadas no se pisan con las de la reserva,es decir,es posible hacer una reserva en ella.
-		 }
-		 else
-		 {
-			 if(fecha_inic > auxReserva.fechaSalida) //si el periodo ingresado se encuentra despues de el de la reserva
+			 if(!(fecha_inic.compareTo(auxReserva.fechaSalida) > 0)) //si el periodo ingresado se encuentra despues de el de la reserva
 			 {
 				 //en este caso tambien es posible hacer una reserva en dicho periodo.
-			 }
-			 else//este seria el caso en el que no seria posible realizar la reserva
-			 {
 				 for(i=0;i<auxReserva.habitaciones.size();i++) //recorre las habitaciones que contiene la reserva
 				 {
 					 if(!estaEliminado(auxReserva.habitaciones, auxReserva.habitaciones.get(i))) //si la habitacion ya ha sido agregada al array "auxEliminados" que contiene las habitaciones que no van a poder ser reservadas
@@ -109,20 +101,19 @@ public ArrayList<String> elegirHabitaciones(ArrayList<Hab> r,int cantPersonas)
 				 }
 			 }
 		 }
-		 
 	 }
 	 return auxHab;
  }
 
-public boolean estaEliminado(ArrayList<Habitacion> habitaciones,int nroHabitacion)
+public boolean estaEliminado(ArrayList<Integer> habitaciones,int nroHabitacion)
 {
 	int i=0;
 	boolean rta=false;
-	Habitacion auxHab;
+	int auxHab;
 	for(i=0;i<habitaciones.size();i++)
 	{
-		Habitacion auxHab = habitaciones.get(i);
-		if(auxHab.nroHabitacion == nroHabitacion)
+		auxHab = habitaciones.get(i);
+		if(auxHab == nroHabitacion)
 		{
 			rta=true;
 		}
