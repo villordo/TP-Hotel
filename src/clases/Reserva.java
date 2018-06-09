@@ -8,9 +8,9 @@ import habitaciones.Habitacion;
 
 
 public class Reserva {
-	public Date fechaEntrada;
-	public Date fechaSalida;
-	public ArrayList<Integer> habitaciones;
+	private Date fechaEntrada;
+	private Date fechaSalida;
+	private ArrayList<Integer> habitaciones;
 	private ArrayList<Consumo> consumos;
 	private int idCliente;
 	private int idReserva;
@@ -23,7 +23,7 @@ public class Reserva {
 		consumos = new ArrayList<Consumo>();
 		this.idCliente=idCliente;
 		this.idReserva=idReserva;
-		cuenta=0;
+	    cuenta=0;
 	}
 	
 	/**
@@ -128,8 +128,6 @@ public class Reserva {
 		 }
 	}
 	
-
-	
 	/**
 	 * Quita un consumo del arreglo de consumos de la reserva.
 	 * @param idArticulo recibe el id del articulo a quitar.
@@ -145,6 +143,18 @@ public class Reserva {
 			}
 			i++;
 		}
+	}
+	
+	public Date getFechaEntrada() {
+		return fechaEntrada;
+	}
+	
+	public Date getFechaSalida() {
+		return fechaSalida;
+	}
+	
+	public ArrayList<Integer> getHabitacionesReserva(){
+		return habitaciones;
 	}
 	
 }
