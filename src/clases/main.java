@@ -62,7 +62,7 @@ public class main {
 		
 		ArrayList<Integer> auxHab = new ArrayList<Integer>();
 		
-		Date fE = new Date(118, 5, 8);
+		Date fE = new Date(118, 5,10);
 		Date fS = new Date(118, 5, 15);
 		
 		auxHab = recepcionista1.buscarDisponibles(reservas, habitacionesTotales, fE, fS);

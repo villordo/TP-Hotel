@@ -22,6 +22,11 @@ public abstract class Habitacion {
 		return precio;
 	}
 	
+	public int getCapacidad()
+	{
+		return capacidad;
+	}
+	
 	public boolean getEstado()
 	{
 		return estado;
