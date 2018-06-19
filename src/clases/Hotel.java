@@ -6,6 +6,9 @@ import habitaciones.Habitacion;
 import persona.Cliente;
 
 public class Hotel {
+	String nombre;
+	String direccion;
+	String telefono;
 	ArrayList<Cliente> clientes;
 	ArrayList<Usuario> usuarios;
 	ArrayList<Habitacion> habitaciones;
@@ -13,8 +16,11 @@ public class Hotel {
 	Login login;
 
 
-public Hotel()
+public Hotel(String nombre, String direccion, String telefono)
 {
+	this.nombre=nombre;
+	this.direccion=direccion;
+	this.telefono=telefono;
 	clientes = new ArrayList<Cliente>();
 	usuarios = new ArrayList<Usuario>();
 	habitaciones = new ArrayList<Habitacion>();
@@ -74,7 +80,7 @@ public void mostrarHabitaciones()
 	int aux=habitaciones.size();
 	for(i=0;i<aux;i++)
 	{
-		habitaciones.get(i).toString();
+		System.out.println(habitaciones.get(i).toString());
 	}
 }
 /**
@@ -86,7 +92,7 @@ public void mostrarReserva()
 	int aux=reservas.size();
 	for(i=0;i<aux;i++)
 	{
-		reservas.get(i).toString();
+		System.out.println(reservas.get(i).toString());
 	}
 }
 /**
@@ -101,6 +107,10 @@ public void mostrarUsuarios()
 		usuarios.get(i).toString();
 	}
 }
-
-//falta getters del menu
+public ArrayList<Reserva> getReservas(){
+	return reservas;
+}
+public ArrayList<Habitacion> getHabitaciones(){
+	return habitaciones;
+}
 }

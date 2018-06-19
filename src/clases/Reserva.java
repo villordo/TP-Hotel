@@ -9,17 +9,19 @@ import habitaciones.Habitacion;
 
 public class Reserva {
 	private Date fechaEntrada;
+	private Date fechaOcupacion;
 	private Date fechaSalida;
-	private ArrayList<Integer> habitaciones;
+	private ArrayList<Habitacion> habitaciones;
 	private ArrayList<Consumo> consumos;
 	private int idCliente;
 	private int idReserva;
 	private float cuenta;
 	
-	public Reserva(Date fechaEntrada, Date fechaSalida, ArrayList<Integer> habitaciones, int idCliente, int idReserva) {
+	public Reserva(Date fechaEntrada, Date fechaSalida, ArrayList<Habitacion> habitaciones, int idCliente, int idReserva) {
 		this.fechaEntrada=fechaEntrada;
+		this.fechaOcupacion=null;
 		this.fechaSalida=fechaSalida;
-		this.habitaciones = new ArrayList<Integer>(habitaciones);
+		this.habitaciones = new ArrayList<Habitacion>(habitaciones);
 		consumos = new ArrayList<Consumo>();
 		this.idCliente=idCliente;
 		this.idReserva=idReserva;
@@ -44,11 +46,11 @@ public class Reserva {
 	 * Suma los precios de las habitaciones de la reserva.
 	 * @return Total de las habitaciones de la reserva.
 	 */
-	/*
+	
 	public float getCuentaHabitaciones() {
-		Iterator<Integer> it = habitaciones.iterator();
+		Iterator<Habitacion> it = habitaciones.iterator();
 		float aux=0;
-		Integer auxHabitacion=it.next();
+		Habitacion auxHabitacion=it.next();
 		while(it.hasNext()) {
 			aux=aux+auxHabitacion.getPrecio();
 		}
@@ -59,7 +61,6 @@ public class Reserva {
 	 * Quita una habitacion del arreglo de habitaciones de la reserva
 	 * @param nroHabitacion recibe el numero de la habitacion a quitar.
 	 */
-	/*
 	public void quitarHabitacion(int nroHabitacion){ // controlada por bucle try/catch
 		int aux=habitaciones.size(), i=0;
 		Habitacion auxHab=null;
@@ -68,19 +69,17 @@ public class Reserva {
 			if(nroHabitacion==auxHab.getNroHabitacion()) habitaciones.remove(i);
 		}
 	}
-	*/
 	
 	/**
 	 * Suma los precios de los todos los consumos y todas las habitaciones de la reserva.
 	 * @param reserva  Recibe la reserva del cliente correspondiente.
 	 * @return Total de los consumos y las habitaciones de la reserva.
 	 */
-	/*
+	
 	public float getCuentaTotal(Reserva reserva) {
 		cuenta=reserva.getCuentaConsumos()+reserva.getCuentaHabitaciones();
 		return cuenta;	
 	}
-	*/
 	
 	
 	/**
@@ -95,17 +94,19 @@ public class Reserva {
 	 * Agrega una habitacion al arreglo de habitaciones de la reserva.
 	 * @param h Recibe la habitacion a agregar.
 	 */
-	public void agregarHabitacion(Integer h) {
+	public void agregarHabitacion(Habitacion h) {
 		habitaciones.add(h);
 	}
 	
 	/**
 	 * Muestra el estado de la reserva.
 	 */
-	public void mostrarReserva(Reserva reserva) {
+	public void mostrarReserva() {
 		 System.out.println("Fecha entrada: "+fechaEntrada+"\nFecha salida: "+fechaSalida+"\nID Cliente: "+idCliente+"\nID Reserva: "+idReserva);
-		 reserva.mostrarHabitaciones();
-		 reserva.mostrarConsumos();
+		 System.out.println("Habitaciones:");
+		 for(int i=0;i<habitaciones.size();i++) {
+				System.out.println("Nro:"+habitaciones.get(i).getNroHabitacion());
+			}
 	}
 	
 	/**
@@ -153,8 +154,18 @@ public class Reserva {
 		return fechaSalida;
 	}
 	
-	public ArrayList<Integer> getHabitacionesReserva(){
+	public ArrayList<Habitacion> getHabitacionesReserva(){
 		return habitaciones;
 	}
-	
+	public int getIdReserva()
+	{
+		return idReserva;
+	}
+	public String toString()
+	{
+		return "idCliente:"+idCliente+"\nidReserva"+idReserva+"\nFecha de inicio:"+fechaEntrada+"\nFecha salida:"+fechaSalida+"\nCuenta:"+cuenta+"\nFecha Ocupacion: "+fechaOcupacion+ "\nHabitaciones reservadas:"+habitaciones.toString();
+	}
+	public void setFechaOcupacion() {
+		fechaOcupacion = new Date();
+	}
 }

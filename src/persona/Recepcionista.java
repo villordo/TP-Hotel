@@ -3,10 +3,12 @@ package persona;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
-
+import clases.Hotel;
 import clases.Reserva;
 import clases.Usuario;
 import interfaces.IHabitacion;
+import habitaciones.HabDoble;
+import habitaciones.HabSimple;
 import habitaciones.Habitacion;
 
 public class Recepcionista extends Persona implements IHabitacion{
@@ -54,9 +56,18 @@ public class Recepcionista extends Persona implements IHabitacion{
 	 * @param idCliente : es el ID del cliente que realizara la Reserva.
 	 * @return : el id de la reserva.
 	 */
-	public int hacerUnaReserva(ArrayList<Habitacion> habitaciones,ArrayList<Reserva> resrvas,Date fecha_inic,Date fecha_fin,int idCliente)
+	public int hacerUnaReserva(ArrayList<Habitacion> habitaciones,ArrayList<Reserva> reservas,Date fecha_inic,Date fecha_fin,int idCliente,int cantPersonas)
 	{
-		return 2;
+		ArrayList<Habitacion> habReserva= new ArrayList<Habitacion>();
+		habReserva=elegirHabitaciones(habitaciones, reservas, cantPersonas, fecha_inic, fecha_fin);
+		System.out.println("Habitaciones elegidas");
+		for(int x=0;x<habReserva.size();x++) {
+			System.out.println(habReserva.get(x).getNroHabitacion());
+		}
+		Reserva auxRes = new Reserva(fecha_inic,fecha_fin,habReserva,idCliente,reservas.size()+1);
+		auxRes.mostrarReserva();
+		reservas.add(auxRes);
+		return auxRes.getIdReserva();
 	}
 	/**
 	 * Crea un ArrayList con las habitaciones que va a contener la nueva reserva y lo retorna. 
@@ -67,49 +78,79 @@ public class Recepcionista extends Persona implements IHabitacion{
 	 * @param fecha_fin : fecha en que se finaliza la Reserva.
 	 * @return un ArrayList con las habitaciones que va a contener la Reserva.
 	 */
-	public ArrayList<Integer> elegirHabitaciones(ArrayList<Habitacion> habitaciones,ArrayList<Reserva> reservas,int cantPersonas,Date fecha_inic,Date fecha_fin)
+	public ArrayList<Habitacion> elegirHabitaciones(ArrayList<Habitacion> habitaciones,ArrayList<Reserva> reservas,int cantPersonas,Date fecha_inic,Date fecha_fin)
 	{
 		int i=0;
-		ArrayList<Integer> auxHabreservadas=new ArrayList<Integer>();
-		ArrayList<Integer> auxHab=new ArrayList<Integer>();
+		Habitacion aux;
+		ArrayList<Habitacion> auxHabreservadas=new ArrayList<Habitacion>();
+		ArrayList<Habitacion> auxHab=new ArrayList<Habitacion>();
+		auxHab=buscarDisponibles(reservas, habitaciones, fecha_inic, fecha_fin);
 		Scanner scan = new Scanner(System.in);
-		while(i<=cantPersonas)
+		int disponiblidad=capacidadDisp(auxHab);
+		System.out.println("Disponibilidad total:"+disponiblidad);
+		if(disponiblidad>=cantPersonas)
 		{
-			
-			int capacidad;
-			auxHab=buscarDisponibles(reservas, habitaciones, fecha_inic, fecha_fin);
-			mostrarHabDisponibles(habitaciones,auxHab); //no deberia mostrar las habitaciones disponibles si la seleccion es ramdom
-			System.out.println("Ingrese el tipo de Habitacion que desea");
-			System.out.println("1-Habitacion Simple");
-			System.out.println("2-Habitacion doble");
-			capacidad=scan.nextInt();
-			if(capacidad==1)
+			while(i<cantPersonas)
 			{
-				capacidad=2;
-			}
-			else
-			{
-				capacidad=4;
-			}
-			for(int x=0;i<habitaciones.size();x++) { //recorre las habitaciones para agregar la primer habitacion simple o doble que encuentre segun la opcion del usuario
-				Habitacion aux = habitaciones.get(x);
-				for(int y=0;i<auxHab.size();y++)
-				{	
-					if(aux.getNroHabitacion()==auxHab.get(y)) //si coincide el numero de la habitacion con uno de los que se encuentra en el auxiliar (que contiene los nros de las hab que estan disponibles para la fecha ingresada)
-					{
-						if(capacidad==aux.getCapacidad()) // si la capacidad coincide,es decir, simple o doble(segun la opcion elegida)
-						{
-							auxHabreservadas.add(auxHab.get(y));//agrega las habitaciones seleccionadas para la reserva.
-						}
-					}
+				System.out.println("Habitaciones disponibles");
+				int op=0;
+				for(int x=0;x<auxHab.size();x++) {
+					System.out.print("Nro: "+auxHab.get(x).getNroHabitacion());
+					System.out.println(" Tipo: "+auxHab.get(x).getClass().getSimpleName());
 				}
+				System.out.println("\n1. Habitacion Simple");
+				System.out.println("2. Habitacion doble");
+				System.out.println("\nPersonas alojadas:"+i+"  Faltan:"+(cantPersonas-i));
+				System.out.print("Ingrese el tipo de Habitacion que desea: ");
+				op=scan.nextInt();
+				System.out.println();
+				switch(op)
+				{
+					case 1:
+							aux=haySimple(auxHab);
+							if(aux!=null) {
+								auxHabreservadas.add(aux);
+								auxHab.remove(aux);
+								i+=aux.getCapacidad();
+							}
+							else
+								System.out.println("No hay habitaciones simples");
+							break;
+					case 2:
+							aux=hayDoble(auxHab);
+							if(aux!=null) {
+								auxHabreservadas.add(aux);
+								auxHab.remove(aux);
+								i+=aux.getCapacidad();
+							}
+							else 
+								System.out.println("No hay habitaciones dobles");
+							break;
+					default:
+							System.out.println("Elegi bien pelotudo");
+				}
+	
 			}
-			i++;
 		}
+		else System.out.println("No hay disponibilidad suficiente para alojar esa cantiadad.");
 		scan.close();
 		return auxHabreservadas;
 	}
-	
+	/**
+	 * Calcula la capacidad disponible que tendra el Hotel para las fechas ingresadas
+	 * @param habitacionesDisp : array con las habitaciones disponibles.
+	 * @return x : capacidad total del hotel.
+	 */
+	public int capacidadDisp(ArrayList<Habitacion> habitacionesDisp)
+	{
+		int x=0;
+		for(int i=0;i<habitacionesDisp.size();i++)
+		{
+			Habitacion aux=habitacionesDisp.get(i);
+			x+=aux.getCapacidad();
+		}
+		return x;
+	}
 	/**
 	 * Retorna el Nro de las Habitaciones que podran ser reservadas para las nuevas fechas ingresadas.
 	 * @param reservas : ArrayList de las Reservas. 
@@ -118,36 +159,27 @@ public class Recepcionista extends Persona implements IHabitacion{
 	 * @param fecha_fin : La nueva fecha de fin de una nueva Reserva.
 	 * @return ArrayList de enteros con las habitaciones disponibles para las fechas ingresadas.
 	 */
-	public ArrayList<Integer> buscarDisponibles(ArrayList<Reserva> reservas,ArrayList<Habitacion> habitaciones,Date fecha_inic,Date fecha_fin)
+	public ArrayList<Habitacion> buscarDisponibles(ArrayList<Reserva> reservas,ArrayList<Habitacion> habitaciones,Date fecha_inic,Date fecha_fin)
 	{
 		int i=0;
 		Date fechaActual = new Date(); //lo inicializa con la fecha actual.
-		ArrayList<Integer> auxHab = new ArrayList<Integer>();
-		auxHab=crearArrayDeNrosHab(auxHab, habitaciones);  //aca crea un array(de enteros) auxiliar con los nuemero de las habitaciones.Para luego retornar las que quedan disponibles.
+		ArrayList<Habitacion> auxHab = new ArrayList<Habitacion>(habitaciones);
 		Reserva auxReserva=null;
-		ArrayList<Integer> auxEliminados = new ArrayList<Integer>();
+		ArrayList<Habitacion> auxEliminados = new ArrayList<Habitacion>();
 	 
 		for(i=0;i<reservas.size();i++) //recorre el array de reservas
 		{
 			auxReserva = reservas.get(i);
 			if(!((fecha_inic.compareTo(auxReserva.getFechaEntrada()) < 0) && (fecha_fin.compareTo(auxReserva.getFechaEntrada()) < 0) && (fecha_inic.compareTo(fechaActual) >= 0))) //si el periodo ingresado NO se encuentra antes al que contiene la reserva y despues de el dia de la fecha
 			{
-				System.out.println("primer if");
 				if(!(fecha_inic.compareTo(auxReserva.getFechaSalida()) > 0)) //si el periodo ingresado NO se encuentra despues de el de la reserva
 				{
-					System.out.println("2do if");
 					//si llega a esta iteracion significa que la NUEVA reserva NO se podra realizar por que las fechas ingresadas coinciden con las existentes.
 					for(int y=0;y<auxReserva.getHabitacionesReserva().size();y++) //recorre las habitaciones que contiene la reserva
 					{
 						if(!estaEliminado(auxEliminados, auxReserva.getHabitacionesReserva().get(y))) //si la habitacion NO ha sido agregada al array "auxEliminados" que contiene las habitaciones que no van a poder ser reservadas
 						{
-							System.out.println("Reserva:"+i);
-							System.out.println("Habitacion a borrar: "+auxReserva.getHabitacionesReserva().get(y));
-							for(int c=0;c<auxHab.size();c++) {
-								System.out.println(auxHab.get(c));
-							}
 							auxEliminados.add(auxReserva.getHabitacionesReserva().get(y)); //primero agrega el nro de la hab al array elminados para que al querer elimnar una habitacion que posiblemente ha sido eliminada no se rompa.(podria ser una execpcion?)
-							System.out.println("en la posicion: "+((auxReserva.getHabitacionesReserva().get(y))-1));
 							auxHab.remove(auxReserva.getHabitacionesReserva().get(y)); //remueve el nro de habitacion para luego retornar las disponibles para la reserva
 						}
 					}
@@ -156,20 +188,7 @@ public class Recepcionista extends Persona implements IHabitacion{
 		}
 		return auxHab;
 	}
-	/**
-	 * Crea un Array de enteros con los Nros de Habitaciones existentes en el Hotel.
-	 * @param auxHab : Auxiliar donde se van a agregas los nros de las habitaciones.
-	 * @param habitaciones : Array que contiene el total de habitaciones de el Hotel.
-	 * @return ArrayList de enteros con TODOS los numeros de las habitaciones existentes.
-	 */
-	public ArrayList<Integer> crearArrayDeNrosHab(ArrayList<Integer> auxHab,ArrayList<Habitacion> habitaciones)
-	{
-		for(int i=0;i<habitaciones.size();i++)       
-		{
-			auxHab.add(habitaciones.get(i).getNroHabitacion());
-		}
-		return auxHab;
-	}
+
 	
 	/**
 	 * Su funcionalidad consiste en verificar si un Nro de Habitacion ha sido eliminado o no para asi si una habitacion tiene mas de una reserva no se intente eliminar dos veces y rompa el programa.
@@ -177,19 +196,57 @@ public class Recepcionista extends Persona implements IHabitacion{
 	 * @param nroHabitacion : numero de la Habitacion a verificar
 	 * @return retorna True si la Habitacion ya ha sido eliminada del array
 	 */
- 	public boolean estaEliminado(ArrayList<Integer> auxEliminados,int nroHabitacion)
+ 	public boolean estaEliminado(ArrayList<Habitacion> auxEliminados, Habitacion h)
  	{
  		boolean rta=false;
 	 	int auxHab;
 	 	for(int i=0;i<auxEliminados.size();i++)
 	 	{
-	 		auxHab = auxEliminados.get(i);
-	 		if(auxHab == nroHabitacion)
+	 		auxHab = auxEliminados.get(i).getNroHabitacion();
+	 		if(auxHab == h.getNroHabitacion())
 	 		{
 	 			rta=true;
 	 		}
 	 	}
 	 	return rta;
  	}
+ 	/**
+ 	 * Retorna una habitacion Simple si es que hay disponible.
+ 	 * @param habitaciones : habitaciones disponibles para la reserva.
+ 	 * @return aux : la Habitacion, o null si no hay disponible.
+ 	 */
+ 	public Habitacion haySimple(ArrayList<Habitacion> habitaciones) {
+ 		Habitacion aux=null;
+ 		for(int i=0;i<habitaciones.size();i++) {
+ 			if(habitaciones.get(i) instanceof HabSimple) {
+ 				aux=habitaciones.get(i);
+ 			}
+ 		}
+ 		return aux;
+ 	}
+ 	/**
+ 	 * Retorna una habitacion Doble si es que hay disponible.
+ 	 * @param habitaciones : habitaciones disponibles para la reserva.
+ 	 * @return aux : la Habitacion, o null si no hay disponible.
+ 	 */
+ 	public Habitacion hayDoble(ArrayList<Habitacion> habitaciones) {
+ 		Habitacion aux=null;
+ 		for(int i=0;i<habitaciones.size();i++) {
+ 			if(habitaciones.get(i) instanceof HabDoble) {
+ 				aux=habitaciones.get(i);
+ 			}
+ 		}
+ 		return aux;
+ 	}
 
+
+ 	public void checkIn(ArrayList<Reserva>reservas, int idReserva) {
+ 		for(int i=0;i<reservas.size();i++) {
+ 			if(idReserva==reservas.get(i).getIdReserva()) {
+ 				reservas.get(i).setFechaOcupacion();
+ 			}
+ 		}
+ 	}
+ 	
+ 	
 }

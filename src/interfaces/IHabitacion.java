@@ -3,8 +3,8 @@ package interfaces;
 import java.util.ArrayList;
 import java.util.Date;
 import clases.Reserva;
-import persona.Cliente;
 import habitaciones.Habitacion;
+import persona.Cliente;
 
 public interface IHabitacion {
 	
