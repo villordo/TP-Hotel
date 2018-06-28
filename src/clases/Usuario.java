@@ -1,12 +1,16 @@
 package clases;
 
-public class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable{
 	private String usuario;
 	private String password;
+	private int tipoCuenta; ///0: Admin, 1: Recepcionista
 	
-	public Usuario(String usuario, String password){
+	public Usuario(String usuario, String password, int tipoCuenta){
 		this.usuario=usuario;
 		this.password=password;
+		this.tipoCuenta=tipoCuenta;
 	}
 	
 	public String getUsuario(){
@@ -15,5 +19,9 @@ public class Usuario {
 	
 	public String getPassword(){
 		return password;
+	}
+	
+	public int getTipoCuenta() {
+		return tipoCuenta;
 	}
 }

@@ -19,10 +19,10 @@ public class Recepcionista extends Persona implements IHabitacion{
 	private int idEmpleado;
 	private Usuario cuenta;
 	
-	public Recepcionista(String nombre, String dni, String origen, String direccion, int id/*, Usuario cuenta*/){
+	public Recepcionista(String nombre, String dni, String origen, String direccion, int id, String usuario, String password){
 		super(nombre, dni, origen, direccion);
 		this.idEmpleado=id;
-	//	this.cuenta=cuenta;
+		cuenta = new Usuario(usuario, password, 1);
 	}
 	
 	public String toString(){

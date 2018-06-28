@@ -121,7 +121,16 @@ public ArrayList<Reserva> getReservas(){
 public void setReservas(ArrayList<Reserva> aux){
 	reservas = aux;
 }
+public void setHabitaciones(ArrayList<Habitacion> aux){
+	habitaciones = aux;
+}
 public ArrayList<Habitacion> getHabitaciones(){
 	return habitaciones;
+}
+public ArrayList<Consumo> getConsumos(){
+	return consumos;
+}
+public void setConsumos(ArrayList<Consumo> c) {
+	consumos = c;
 }
 }
