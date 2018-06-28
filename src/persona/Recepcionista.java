@@ -28,7 +28,10 @@ public class Recepcionista extends Persona implements IAdministracion{
 	public String toString(){
 		return "ID Empleado: "+idEmpleado+"\nNombre: "+nombre+"\nDNI: "+dni+"\nOrigen: "+origen+"\nDireccion: "+direccion;
 	}
-	
+	public Usuario getCuenta()
+ 	{
+ 		return cuenta;
+ 	}
 	/**
 	 * Muestra las habitaciones del Hotel.
 	 */
@@ -311,10 +314,6 @@ public class Recepcionista extends Persona implements IAdministracion{
  		return aux;
  	}
  	
- 	public Usuario getCuenta()
- 	{
- 		return cuenta;
- 	}
  	
  	public void cargarCliente(ArrayList<Cliente> clientes, Cliente c) throws IOException{
  		clientes.add(c);

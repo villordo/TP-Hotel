@@ -325,4 +325,8 @@ public class Administrador extends Persona implements IAdministracion{
  		clientes.add(c);
  		ArchivosUtility.escribir("clientes", clientes);
  	}
+ 	public void agregarRecepcionista(ArrayList<Recepcionista> recepcionistas,ArrayList<Usuario> usuarios,Recepcionista nuevoRecep)
+ 	{
+ 		
+ 	}
 }

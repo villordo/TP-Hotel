@@ -92,7 +92,12 @@ public class main {
 												int auxIdCliente = hotel1.getClientes().size()+1;
 												Cliente c = new Cliente(auxNombre, dni, origen, direccion, auxIdCliente);
 												System.out.println("Su ID de cliente es: "+c.getIdCliente());
-												hotel1.agregarCliente(c);
+												try {
+													auxRecep.cargarCliente(hotel1.getClientes(), c);
+												} catch (IOException e1) {
+													// TODO Auto-generated catch block
+													e1.printStackTrace();
+												}
 												break;
 										case 2:
 												Scanner scanid = new Scanner(System.in);
@@ -182,7 +187,7 @@ public class main {
 				else {
 					auxAdmin=hotel1.buscarAdmin(auxCuenta, hotel1.getAdministradores());
 					System.out.println("Mostrando recepcionista: \n"+auxAdmin.toString());
-					int opcion2=menuRecepcionista();
+					int opcion2=menuAdministrador();
 					switch(opcion2)
 					{
 						case 1:
@@ -202,8 +207,13 @@ public class main {
 												int auxIdCliente = hotel1.getClientes().size()+1;
 												Cliente c = new Cliente(auxNombre, dni, origen, direccion, auxIdCliente);
 												System.out.println("Su ID de cliente es: "+c.getIdCliente());
-												hotel1.agregarCliente(c);
-												break;
+												try {
+												auxAdmin.cargarCliente(hotel1.getClientes(), c);
+												} catch (IOException e1) {
+												// TODO Auto-generated catch block
+												e1.printStackTrace();
+												}
+													break;
 										case 2:
 												Scanner scanid = new Scanner(System.in);
 												System.out.println("Ingrese ID Cliente: ");
@@ -322,7 +332,6 @@ public class main {
 		System.out.println("5-Mostrar Habitaciones.");
 		System.out.println("6-Agregar consumo a una reserva.");
 		System.out.println("7-Mostrar reservas.");
-		System.out.println("0-Atras.");
 		System.out.println("Ingrese una opcion: ");
 		opcion=scan2.nextInt();
 		
@@ -332,7 +341,7 @@ public class main {
 	{
 		int opcion=0;
 		Scanner scan2=new Scanner(System.in);
-		System.out.println("---------Recepcionista---------");
+		System.out.println("---------Administrador---------");
 		System.out.println("1-Hacer una reserva.");
 		System.out.println("2-Quitar reserva.");
 		System.out.println("3-CheckIn.");
@@ -340,7 +349,9 @@ public class main {
 		System.out.println("5-Mostrar Habitaciones.");
 		System.out.println("6-Agregar consumo a una reserva.");
 		System.out.println("7-Mostrar reservas.");
-		System.out.println("0-Atras.");
+		System.out.println("8-Agregar Recepcionista.");
+		System.out.println("9-Agregar Administrador.");
+		System.out.println("10-Agregar Cliente.");
 		System.out.println("Ingrese una opcion: ");
 		opcion=scan2.nextInt();
 		
@@ -352,7 +363,6 @@ public class main {
 		Scanner scan1=new Scanner(System.in);
 		System.out.println("1-Si");
 		System.out.println("2-Ingresar ID Cliente existente.");
-		System.out.println("0-Atras");
 		System.out.println("Ingrese una opcion.");
 		opcion=scan1.nextInt();
 		return opcion;
