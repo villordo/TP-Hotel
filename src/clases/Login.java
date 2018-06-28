@@ -3,26 +3,21 @@ package clases;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 public class Login {
 	
-	public static boolean login(String usuario, String password) throws IOException, ClassNotFoundException{
-		Usuario obj;
-		int flag=0;
-		FileInputStream bn = new FileInputStream("usuarios.dat");
-		ObjectInputStream fobj = new ObjectInputStream (bn);
-		obj = (Usuario) fobj.readObject();
+	public static Usuario login(String usuario, String password, ArrayList<Usuario> usuarios) throws IOException, ClassNotFoundException{
+		Usuario auxCuenta=null;
 		
-		while(flag==0 && obj!=null) {
-			if(usuario.equals(obj.getUsuario())) {
-				if(password.equals(obj.getPassword())) {
-					flag=1;	
-					return true;
+		for(int i=0;i<usuarios.size();i++) {
+			if(usuario.equals(usuarios.get(i).getUsuario())) {
+				if(password.equals(usuarios.get(i).getPassword())) {
+					auxCuenta = usuarios.get(i);
 				}
 			}
-			obj = (Usuario) fobj.readObject();
 		}
-		return false;
+		return auxCuenta;
 	}
 
 }

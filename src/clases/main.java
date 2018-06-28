@@ -3,6 +3,8 @@ import habitaciones.Habitacion;
 import clases.Hotel;
 import habitaciones.HabSimple;
 import habitaciones.HabDoble;
+import persona.Administrador;
+import persona.Cliente;
 import persona.Recepcionista;
 
 import java.io.EOFException;
@@ -10,6 +12,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -25,152 +29,326 @@ public class main {
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		Hotel hotel1 = new Hotel("Hotel Samullordo","Av. Siempre viva","0800222HELP");
 		
-		Hotel hotel1 = new Hotel("Hotelazo","Av. Siempre viva","0800222bija");
-		
-		HabSimple habitacion1 = new HabSimple(1,500,true,"simple");
-		HabSimple habitacion2 = new HabSimple(2,500,true,"simple");
-		HabDoble habitacion3 = new HabDoble(3,1000,true,"doble");
-		HabDoble habitacion4 = new HabDoble(4,1000,true,"doble");
-		HabDoble habitacion5 = new HabDoble(3,1000,true,"doble");
-		HabDoble habitacion6 = new HabDoble(4,1000,true,"doble");
-		HabDoble habitacion7 = new HabDoble(3,1000,true,"doble");
-		HabSimple habitacion8 = new HabSimple(1,500,true,"simple");
-		HabSimple habitacion9 = new HabSimple(2,500,true,"simple");
-		HabSimple habitacion10 = new HabSimple(1,500,true,"simple");
-		
-		Comida c1 = new Comida(1, "Arroz con queso", 40);
-		Comida c2 = new Comida(2, "Milanesa con papas", 70);
-		Comida c3 = new Comida(3, "Pollo al horno con papas", 95);
-		Bebida b1 = new Bebida(4, "Coca Cola", 50);
-		Bebida b2 = new Bebida(5, "Pepsi", 40);
-		Bebida b3 = new Bebida(6, "Sprite", 50);
-		
-		/*hotel1.agregarConsumo(c1);
-		hotel1.agregarConsumo(c2);
-		hotel1.agregarConsumo(c3);
-		hotel1.agregarConsumo(b1);
-		hotel1.agregarConsumo(b2);
-		hotel1.agregarConsumo(b3);
-		
+		Administrador a = new Administrador("admin", "admin", "admin", "admin", hotel1.getAdministradores().size()+1, "admin", "admin");
+		hotel1.agregarAdministrador(a);
+		hotel1.agregarUsuario(a.getCuenta());
 		try {
-			ArchivosUtility.escribir("consumos.dat", hotel1.getConsumos());
-		} catch (IOException e3) {
-			// TODO Auto-generated catch block
-			e3.printStackTrace();
-		}*/
-		
-		boolean aux=false;
-		try {
-			aux=Login.login("admin","admn");
-		} catch (ClassNotFoundException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
+			ArchivosUtility.escribir("administradores.dat", hotel1.getAdministradores());
+			ArchivosUtility.escribir("usuarios.dat", hotel1.getUsuarios());
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
-			e2.getMessage();
-		} finally {
-			if(aux==true) {
-				System.out.println("Usted se ha logeado correctamente");
-			} else
-				System.out.println("Usuario o contraseña incorrectos");
+			e2.printStackTrace();
 		}
-		
-		/*ArrayList<Habitacion> habitaciones = new ArrayList<Habitacion>();
-		ArrayList<Habitacion> habitaciones1 = new ArrayList<Habitacion>();
-		ArrayList<Habitacion> habitaciones2 = new ArrayList<Habitacion>();
-		
-		hotel1.agregarHabitacion(habitacion1);
-		hotel1.agregarHabitacion(habitacion2);
-		hotel1.agregarHabitacion(habitacion3);
-		hotel1.agregarHabitacion(habitacion4);
-		
-		
-		habitaciones.add(habitacion1);
-		habitaciones.add(habitacion2);
-		
-		habitaciones1.add(habitacion3);
-		
-		habitaciones2.add(habitacion4);
-		habitaciones2.add(habitacion2);
-		
-		Date f1 = new Date(118, 5, 29);
-		Date f2 = new Date(118, 6, 6);
-		Date f3 = new Date(118, 6, 7);
-		Date f4 = new Date(118, 6, 13);
-		Date f5 = new Date(118, 6, 14);
-		Date f6 = new Date(118, 6, 21);
-		
-		Reserva r1 = new Reserva(f1, f2, habitaciones, 1, 1);
-		Reserva r2 = new Reserva(f3, f4, habitaciones1, 2, 2);
-		Reserva r3 = new Reserva(f5, f6, habitaciones2, 3, 3);
-		
-		hotel1.agregarReserva(r1);
-		hotel1.agregarReserva(r2);
-		hotel1.agregarReserva(r3);
-		try {
-			ArchivosUtility.escribir("reservas.dat", hotel1.getReservas());
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}*/
-		
 		try {
 			hotel1.setReservas(ArchivosUtility.<Reserva>volcarArchivo("reservas.dat"));
 			hotel1.setHabitaciones(ArchivosUtility.<Habitacion>volcarArchivo("habitaciones.dat"));
 			hotel1.setConsumos(ArchivosUtility.<Consumo>volcarArchivo("consumos.dat"));
+			hotel1.setRecepcionistas(ArchivosUtility.<Recepcionista>volcarArchivo("recepcionistas.dat"));
+			hotel1.setUsuarios(ArchivosUtility.<Usuario>volcarArchivo("usuarios.dat"));
+			hotel1.setAdministradores(ArchivosUtility.<Administrador>volcarArchivo("administradores.dat"));
 		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} 
 
-		hotel1.mostrarReservas();
-		for(int i=0;i<hotel1.getConsumos().size();i++) {
-			System.out.println(hotel1.getConsumos().get(i).toString());
+		Scanner scan=new Scanner(System.in);
+		Usuario auxCuenta=null;
+		Recepcionista auxRecep=null;
+		Administrador auxAdmin=null;
+		ArrayList<Habitacion> habDisponibles;
+		ArrayList<Habitacion> habElegidas;
+		int opcion1=menuPrincipal();
+		switch(opcion1)
+		{
+			case 1:
+				String auxUsu;
+				System.out.println("Ingrese usuario: ");
+				auxUsu=scan.nextLine();
+				System.out.println("Ingrese pass: ");
+				String auxPass=scan.nextLine();
+
+				
+				try {
+					auxCuenta=Login.login(auxUsu, auxPass, hotel1.getUsuarios());
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				if(auxCuenta.getTipoCuenta()==1)
+				{
+					auxRecep=hotel1.buscarRecepcionista(auxCuenta, hotel1.getRecepcionistas());
+					System.out.println("Mostrando recepcionista: \n"+auxRecep.toString());
+					int opcion2=menuRecepcionista();
+					switch(opcion2)
+					{
+						case 1:
+									int opcion3;
+									opcion3 = menuCliente();
+									switch(opcion3)
+									{
+										case 1:
+												System.out.println("Ingrese nombre y apellido: ");
+												String auxNombre = scan.nextLine();
+												System.out.println("Ingrese DNI: ");
+												String dni = scan.nextLine();
+												System.out.println("Ingrese origen: ");
+												String origen = scan.nextLine();
+												System.out.println("Ingrese direccion: ");
+												String direccion = scan.nextLine();
+												int auxIdCliente = hotel1.getClientes().size()+1;
+												Cliente c = new Cliente(auxNombre, dni, origen, direccion, auxIdCliente);
+												System.out.println("Su ID de cliente es: "+c.getIdCliente());
+												hotel1.agregarCliente(c);
+												break;
+										case 2:
+												Scanner scanid = new Scanner(System.in);
+												System.out.println("Ingrese ID Cliente: ");
+												int auxid=scanid.nextInt();
+												System.out.println("Ingrese la cantidad de personas que desea alojar:");
+												int cant_pers=scanid.nextInt();
+												Date fE=null;
+												Date fS=null;
+												SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+												System.out.println("Ingrese la fecha de ingreso: ");
+												Scanner sc = new Scanner(System.in);
+												String fecha = sc.nextLine();
+												try {
+													fE = sdf.parse(fecha);
+													System.out.println("Ingrese fecha de salida: ");
+													fS = sdf.parse(sc.nextLine());
+												} catch (ParseException e) {
+													e.printStackTrace();
+												}
+												habDisponibles = auxRecep.buscarDisponibles(hotel1.getReservas(), hotel1.getHabitaciones(), fE, fS);		
+												habElegidas = auxRecep.elegirHabitaciones(habDisponibles, hotel1.getReservas(), cant_pers);
+												if(habElegidas!=null) {
+													int rta=0;
+													rta=auxRecep.hacerReserva(habElegidas, hotel1.getReservas(), fE, fS,auxid);
+												}
+												break;
+									}
+							break;
+						case 2:
+								Scanner scanEliminar = new Scanner(System.in);
+								System.out.println("Ingrese ID de reserva a cancelar: ");
+								int aux = scanEliminar.nextInt();
+								auxRecep.cancelarReserva(aux, hotel1.getReservas());
+								try {
+									ArchivosUtility.escribir("reservas.dat", hotel1.getReservas());
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+							break;
+						case 3:
+							   Scanner scanCheckIn = new Scanner(System.in);
+							   System.out.println("Ingrese ID de reserva para hacer check in: ");
+							   int auxScanCheckIn = scanCheckIn.nextInt();
+							   try {
+								   auxRecep.checkIn(hotel1.getReservas(), auxScanCheckIn);
+							   } catch (IOException e) {
+								   e.printStackTrace();
+							   }
+							break;
+						case 4:
+							  Scanner scanCheckOut = new Scanner(System.in);
+							  System.out.println("Ingrese ID de reserva para hacer check out: ");
+							  int auxScanCheckOut = scanCheckOut.nextInt();
+							  try {
+								  float cuentaTotal = auxRecep.checkOut(hotel1.getReservas(), auxScanCheckOut);
+								  System.out.println("La cuenta total es: "+cuentaTotal);
+							  } catch (IOException e) {
+								  e.printStackTrace();
+							  }
+							break;
+						case 5: 
+								hotel1.mostrarHabitaciones();
+							break;
+						case 6:
+							 Scanner scanConsumo = new Scanner(System.in);
+							 for(int i=0;i<hotel1.getConsumos().size();i++) {
+								 System.out.println(hotel1.getConsumos().get(i).toString());
+							 }
+							 System.out.println("Elija una opcion(ID del articulo): ");
+							 int scanConsumoAux = scanConsumo.nextInt();
+							 Consumo auxC = auxRecep.buscarConsumo(hotel1.getConsumos(), scanConsumoAux);
+							 System.out.println("Ingrese el ID de la reserva: ");
+							 int scanReserva = scanConsumo.nextInt();
+							 try {
+								 auxRecep.realizarConsumo(hotel1.getReservas(), scanReserva, auxC);
+							 } catch (IOException e) {
+								 e.printStackTrace();
+							 }
+							break;
+						case 7:
+							 hotel1.mostrarReservas();
+						case 0: 
+							break;
+					}
+				}
+				else {
+					auxAdmin=hotel1.buscarAdmin(auxCuenta, hotel1.getAdministradores());
+					System.out.println("Mostrando recepcionista: \n"+auxAdmin.toString());
+					int opcion2=menuRecepcionista();
+					switch(opcion2)
+					{
+						case 1:
+									int opcion3;
+									opcion3 = menuCliente();
+									switch(opcion3)
+									{
+										case 1:
+												System.out.println("Ingrese nombre y apellido: ");
+												String auxNombre = scan.nextLine();
+												System.out.println("Ingrese DNI: ");
+												String dni = scan.nextLine();
+												System.out.println("Ingrese origen: ");
+												String origen = scan.nextLine();
+												System.out.println("Ingrese direccion: ");
+												String direccion = scan.nextLine();
+												int auxIdCliente = hotel1.getClientes().size()+1;
+												Cliente c = new Cliente(auxNombre, dni, origen, direccion, auxIdCliente);
+												System.out.println("Su ID de cliente es: "+c.getIdCliente());
+												hotel1.agregarCliente(c);
+												break;
+										case 2:
+												Scanner scanid = new Scanner(System.in);
+												System.out.println("Ingrese ID Cliente: ");
+												int auxid=scanid.nextInt();
+												System.out.println("Ingrese la cantidad de personas que desea alojar:");
+												int cant_pers=scanid.nextInt();
+												Date fE=null;
+												Date fS=null;
+												SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+												System.out.println("Ingrese la fecha de ingreso: ");
+												Scanner sc = new Scanner(System.in);
+												String fecha = sc.nextLine();
+												try {
+													fE = sdf.parse(fecha);
+													System.out.println("Ingrese fecha de salida: ");
+													fS = sdf.parse(sc.nextLine());
+												} catch (ParseException e) {
+													e.printStackTrace();
+												}
+												habDisponibles = auxAdmin.buscarDisponibles(hotel1.getReservas(), hotel1.getHabitaciones(), fE, fS);		
+												habElegidas = auxRecep.elegirHabitaciones(habDisponibles, hotel1.getReservas(), cant_pers);
+												if(habElegidas!=null) {
+													int rta=0;
+													rta=auxRecep.hacerReserva(habElegidas, hotel1.getReservas(), fE, fS,auxid);
+												}
+												break;
+									}
+							break;
+						case 2:
+								Scanner scanEliminar = new Scanner(System.in);
+								System.out.println("Ingrese ID de reserva a cancelar: ");
+								int aux = scanEliminar.nextInt();
+								auxAdmin.cancelarReserva(aux, hotel1.getReservas());
+								try {
+									ArchivosUtility.escribir("reservas.dat", hotel1.getReservas());
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+							break;
+						case 3:
+							   Scanner scanCheckIn = new Scanner(System.in);
+							   System.out.println("Ingrese ID de reserva para hacer check in: ");
+							   int auxScanCheckIn = scanCheckIn.nextInt();
+							   try {
+								   auxAdmin.checkIn(hotel1.getReservas(), auxScanCheckIn);
+							   } catch (IOException e) {
+								   e.printStackTrace();
+							   }
+							break;
+						case 4:
+							  Scanner scanCheckOut = new Scanner(System.in);
+							  System.out.println("Ingrese ID de reserva para hacer check out: ");
+							  int auxScanCheckOut = scanCheckOut.nextInt();
+							  try {
+								  float cuentaTotal = auxAdmin.checkOut(hotel1.getReservas(), auxScanCheckOut);
+								  System.out.println("La cuenta total es: "+cuentaTotal);
+							  } catch (IOException e) {
+								  e.printStackTrace();
+							  }
+							break;
+						case 5: 
+								hotel1.mostrarHabitaciones();
+							break;
+						case 6:
+							 Scanner scanConsumo = new Scanner(System.in);
+							 for(int i=0;i<hotel1.getConsumos().size();i++) {
+								 System.out.println(hotel1.getConsumos().get(i).toString());
+							 }
+							 System.out.println("Elija una opcion(ID del articulo): ");
+							 int scanConsumoAux = scanConsumo.nextInt();
+							 Consumo auxC = auxAdmin.buscarConsumo(hotel1.getConsumos(), scanConsumoAux);
+							 System.out.println("Ingrese el ID de la reserva: ");
+							 int scanReserva = scanConsumo.nextInt();
+							 try {
+								 auxAdmin.realizarConsumo(hotel1.getReservas(), scanReserva, auxC);
+							 } catch (IOException e) {
+								 e.printStackTrace();
+							 }
+							break;
+						case 7:
+							 hotel1.mostrarReservas();
+						case 0: 
+							break;
+					}
+				}
+				break;
+			case 2:
+				System.out.println("Adios");
+				break;
+		
 		}
-		/*try {
-			ArchivosUtility.mostrarArchivo("reservas.dat");
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.getMessage();
-		}*/
-		
-		Recepcionista recepcionista1 = new Recepcionista("Jorge", "111111111", "Springfield", "Av. Siempreviva", 1, "Jorgito", "Jorgito");
-		
-		Date fE = new Date(118, 6, 15);
-		Date fS = new Date(118, 6, 18);
-		
-		ArrayList<Habitacion> habDisponibles = recepcionista1.buscarDisponibles(hotel1.getReservas(), hotel1.getHabitaciones(), fE, fS);
-		ArrayList<Habitacion> habElegidas = recepcionista1.elegirHabitaciones(habDisponibles, hotel1.getReservas(), 11);
-		if(habElegidas!=null) {
-			int rta=0;
-			rta=recepcionista1.hacerReserva(habElegidas, hotel1.getReservas(), fE, fS, 1);
-			try {
-				recepcionista1.checkIn(hotel1.getReservas(), rta);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}	
-	//	hotel1.mostrarReservas();
-		
-	/*	try {
-			float auxCuenta = recepcionista1.checkOut(hotel1.getReservas(), 2);
-			System.out.println("Cuenta total: "+auxCuenta);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
-		
 	
 	}
+	public static int menuPrincipal()
+	{
+		int opcion=0;
+		Scanner scan3=new Scanner(System.in);
+		System.out.println("------------HOTEL SAMULLORDO-----------");
+		System.out.println("1-Ingresar");
+		System.out.println("2-Salir");
+		System.out.println("Ingrese opcion: ");
+		opcion=scan3.nextInt();
+		
+		return opcion;
+	}
 	
+	public static int menuRecepcionista()
+	{
+		int opcion=0;
+		Scanner scan2=new Scanner(System.in);
+		System.out.println("---------Recepcionista---------");
+		System.out.println("1-Hacer una reserva.");
+		System.out.println("2-Quitar reserva.");
+		System.out.println("3-CheckIn.");
+		System.out.println("4-CheckOut.");
+		System.out.println("5-Mostrar Habitaciones.");
+		System.out.println("6-Agregar consumo a una reserva.");
+		System.out.println("7-Mostrar reservas.");
+		System.out.println("0-Atras.");
+		System.out.println("Ingrese una opcion: ");
+		opcion=scan2.nextInt();
+		
+		return opcion;
+	}
+	public static int menuCliente()
+	{
+		int opcion=0;
+		Scanner scan1=new Scanner(System.in);
+		System.out.println("1-Si");
+		System.out.println("2-Ingresar ID Cliente existente.");
+		System.out.println("0-Atras");
+		System.out.println("Ingrese una opcion.");
+		opcion=scan1.nextInt();
+		return opcion;
+	}
 
 }
 

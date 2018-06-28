@@ -11,4 +11,8 @@ public class Cliente extends Persona{
 	public String toString(){
 		return "ID Cliente: "+idCliente+"\nNombre: "+nombre+"\nDNI: "+dni+"\nOrigen: "+origen+"\nDireccion: "+direccion;
 	}
+	
+	public int getIdCliente() {
+		return idCliente;
+	}
 }

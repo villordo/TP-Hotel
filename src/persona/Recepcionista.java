@@ -150,13 +150,10 @@ public class Recepcionista extends Persona implements IHabitacion{
 		auxHab = habitaciones;
 		Reserva auxReserva=null;
 		ArrayList<Habitacion> auxEliminados = new ArrayList<Habitacion>();
-		
 		for(i=0;i<reservas.size();i++) //recorre el array de reservas
 		{
 			auxReserva = reservas.get(i);
-			
-			if(!((fecha_inic.compareTo(auxReserva.getFechaEntrada()) < 0) && (fecha_fin.compareTo(auxReserva.getFechaEntrada()) < 0) && (fecha_inic.compareTo(fechaActual) >= 0)))			{
-				
+			if(!((fecha_inic.compareTo(auxReserva.getFechaEntrada()) < 0) && (fecha_fin.compareTo(auxReserva.getFechaEntrada()) < 0) && (fecha_inic.compareTo(fechaActual) >= 0))){
 				if(!(fecha_inic.compareTo(auxReserva.getFechaSalida()) > 0)) //si el periodo ingresado NO se encuentra despues de el de la reserva
 				{
 					//si llega hasta aca significa que la NUEVA reserva NO se podra realizar por que las fechas ingresadas coinciden con las existentes.
@@ -284,14 +281,44 @@ public class Recepcionista extends Persona implements IHabitacion{
  		return aux;
  	}
  	
+ 	public void cancelarReserva(int idReserva, ArrayList<Reserva> reservas) {
+ 		Reserva aux=null;
+ 		for(int i=0;i<reservas.size();i++) {
+ 			if(reservas.get(i).getIdReserva()==idReserva) {
+ 				aux=reservas.get(i);
+ 			}
+ 		}
+ 		reservas.remove(aux);
+ 	}
+ 	
  	public void realizarConsumo(ArrayList<Reserva> reservas, int idReserva, Consumo c) throws IOException
  	{
  		for(int i=0;i<reservas.size();i++) {
  			if(reservas.get(i).getIdReserva()==idReserva) {
  				reservas.get(i).agregarConsumo(c);
- 	//			ArchivosUtility.escribir("reservas.dat", reservas);
+ 				ArchivosUtility.escribir("reservas.dat", reservas);
  			}
  		}
+ 	}
+ 	
+ 	public Consumo buscarConsumo(ArrayList<Consumo> consumos, int idConsumo) {
+ 		Consumo aux=null;
+ 		for(int i=0;i<consumos.size();i++) {
+ 			if(consumos.get(i).getIdArticulo()==idConsumo) {
+ 				aux = consumos.get(i);
+ 			}
+ 		}
+ 		return aux;
+ 	}
+ 	
+ 	public Usuario getCuenta()
+ 	{
+ 		return cuenta;
+ 	}
+ 	
+ 	public void cargarCliente(ArrayList<Cliente> clientes, Cliente c) throws IOException{
+ 		clientes.add(c);
+ 		ArchivosUtility.escribir("clientes", clientes);
  	}
 
  	

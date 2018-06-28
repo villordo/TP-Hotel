@@ -24,4 +24,17 @@ public class Usuario implements Serializable{
 	public int getTipoCuenta() {
 		return tipoCuenta;
 	}
+	public String toString() {
+		return "Usuario: "+usuario+"\nContraseña: "+password;
+	}
+	public boolean equals(Usuario u)
+	{
+		if(usuario==u.getUsuario())
+			if(password==u.getPassword())
+			{
+				return true;
+			}
+		return false;
+		
+	}
 }
