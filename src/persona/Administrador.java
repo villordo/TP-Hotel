@@ -12,8 +12,9 @@ import consumos.Consumo;
 import habitaciones.HabDoble;
 import habitaciones.HabSimple;
 import habitaciones.Habitacion;
+import interfaces.IAdministracion;
 
-public class Administrador extends Persona{
+public class Administrador extends Persona implements IAdministracion{
 	private int idEmpleado;
 	private Usuario cuenta;
 

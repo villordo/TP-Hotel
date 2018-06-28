@@ -9,13 +9,13 @@ import java.util.Scanner;
 import clases.Reserva;
 import clases.Usuario;
 import consumos.Consumo;
-import interfaces.IHabitacion;
+import interfaces.IAdministracion;
 import habitaciones.HabDoble;
 import habitaciones.HabSimple;
 import habitaciones.Habitacion;
 import archivos.ArchivosUtility;
 
-public class Recepcionista extends Persona implements IHabitacion{
+public class Recepcionista extends Persona implements IAdministracion{
 	private int idEmpleado;
 	private Usuario cuenta;
 	

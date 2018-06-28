@@ -31,16 +31,6 @@ public class main {
 		// TODO Auto-generated method stub
 		Hotel hotel1 = new Hotel("Hotel Samullordo","Av. Siempre viva","0800222HELP");
 		
-		Administrador a = new Administrador("admin", "admin", "admin", "admin", hotel1.getAdministradores().size()+1, "admin", "admin");
-		hotel1.agregarAdministrador(a);
-		hotel1.agregarUsuario(a.getCuenta());
-		try {
-			ArchivosUtility.escribir("administradores.dat", hotel1.getAdministradores());
-			ArchivosUtility.escribir("usuarios.dat", hotel1.getUsuarios());
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
 		try {
 			hotel1.setReservas(ArchivosUtility.<Reserva>volcarArchivo("reservas.dat"));
 			hotel1.setHabitaciones(ArchivosUtility.<Habitacion>volcarArchivo("habitaciones.dat"));
@@ -321,6 +311,24 @@ public class main {
 	}
 	
 	public static int menuRecepcionista()
+	{
+		int opcion=0;
+		Scanner scan2=new Scanner(System.in);
+		System.out.println("---------Recepcionista---------");
+		System.out.println("1-Hacer una reserva.");
+		System.out.println("2-Quitar reserva.");
+		System.out.println("3-CheckIn.");
+		System.out.println("4-CheckOut.");
+		System.out.println("5-Mostrar Habitaciones.");
+		System.out.println("6-Agregar consumo a una reserva.");
+		System.out.println("7-Mostrar reservas.");
+		System.out.println("0-Atras.");
+		System.out.println("Ingrese una opcion: ");
+		opcion=scan2.nextInt();
+		
+		return opcion;
+	}
+	public static int menuAdministrador()
 	{
 		int opcion=0;
 		Scanner scan2=new Scanner(System.in);
