@@ -1,6 +1,8 @@
 package habitaciones;
 
-public abstract class Habitacion {
+import java.io.Serializable;
+
+public abstract class Habitacion implements Serializable{
 	protected int nroHabitacion;
 	protected float precio;
 	protected int capacidad;
@@ -36,7 +38,7 @@ public abstract class Habitacion {
 		return nroHabitacion;
 	}
 
-	public String getDescrpcion()
+	public String getDescripcion()
 	{
 		return descripcion;
 	}
@@ -45,6 +47,13 @@ public abstract class Habitacion {
 
 	public String mostrarHab()
 	{
-		return "Nro Habitacion:"+nroHabitacion+"\nPrecio:"+precio+"\nCapacidad:"+capacidad;
+		return "\nNro Habitacion: "+nroHabitacion;
+	}
+	
+	public boolean equals(Habitacion h) {
+		if(h.getNroHabitacion()==nroHabitacion) {
+			return true;
+		}
+		return false;
 	}
 }

@@ -1,6 +1,8 @@
-package clases;
+package consumos;
 
-public class Consumo {
+import java.io.Serializable;
+
+public abstract class Consumo implements Serializable {
 	private int idArticulo;
 	private String nombre;
 	private float precio;
@@ -9,7 +11,6 @@ public class Consumo {
 		this.idArticulo=idArticulo;
 		this.nombre=nombre;
 		this.precio=precio;
-		
 	}
 	
 	public float getPrecio() {
@@ -19,12 +20,14 @@ public class Consumo {
 	public int getIdArticulo(){
 		return idArticulo;
 	}
+	public String getNombre()
+	{
+		return nombre;
+	}
 	
 	/**
 	 * Muestra el estado del objeto.
 	 */
-	public String toString() {
-		return "Nombre: "+nombre+"\nPrecio: "+precio;
-	}
+	public abstract String toString();
 
 }

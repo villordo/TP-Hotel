@@ -9,7 +9,7 @@ public class HabSimple extends Habitacion {
 
 	public String toString()
 	{
-		return "Nro Habitacion:"+nroHabitacion+"\nPrecio:"+precio+"\nCapacidad:"+capacidad+"\nEstado:"+estado+"\nDescripcion"+descripcion;
+		return "Nro Habitacion: "+nroHabitacion+"\nPrecio: "+precio+"\nCapacidad: "+capacidad+"\nEstado: "+estado+"\nDescripcion: "+descripcion;
 	}
 
 }

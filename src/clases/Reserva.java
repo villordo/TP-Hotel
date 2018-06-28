@@ -1,13 +1,15 @@
 package clases;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
+import consumos.Consumo;
 import habitaciones.Habitacion;
 
 
-public class Reserva {
+public class Reserva implements Serializable{
 	private Date fechaEntrada;
 	private Date fechaOcupacion;
 	private Date fechaSalida;
@@ -28,16 +30,15 @@ public class Reserva {
 	    cuenta=0;
 	}
 	
+	
 	/**
 	 * Suma los precios de los consumos de la reserva.
 	 * @return Total de los consumos de la reserva.
 	 */
 	public float getCuentaConsumos() {
-		Iterator <Consumo> it = consumos.iterator();
 		float aux=0;
-		Consumo auxConsumo=it.next();
-		while(it.hasNext()) {
-			aux=aux+auxConsumo.getPrecio();
+		for(int i=0;i<consumos.size();i++) {
+			aux+=consumos.get(i).getPrecio();
 		}
 		return aux;
 	}
@@ -48,11 +49,10 @@ public class Reserva {
 	 */
 	
 	public float getCuentaHabitaciones() {
-		Iterator<Habitacion> it = habitaciones.iterator();
 		float aux=0;
-		Habitacion auxHabitacion=it.next();
-		while(it.hasNext()) {
-			aux=aux+auxHabitacion.getPrecio();
+		for(int i=0;i<habitaciones.size();i++)
+		{
+			aux+=habitaciones.get(i).getPrecio();
 		}
 		return aux;
 	}
@@ -96,17 +96,6 @@ public class Reserva {
 	 */
 	public void agregarHabitacion(Habitacion h) {
 		habitaciones.add(h);
-	}
-	
-	/**
-	 * Muestra el estado de la reserva.
-	 */
-	public void mostrarReserva() {
-		 System.out.println("Fecha entrada: "+fechaEntrada+"\nFecha salida: "+fechaSalida+"\nID Cliente: "+idCliente+"\nID Reserva: "+idReserva);
-		 System.out.println("Habitaciones:");
-		 for(int i=0;i<habitaciones.size();i++) {
-				System.out.println("Nro:"+habitaciones.get(i).getNroHabitacion());
-			}
 	}
 	
 	/**
@@ -157,15 +146,25 @@ public class Reserva {
 	public ArrayList<Habitacion> getHabitacionesReserva(){
 		return habitaciones;
 	}
+	
 	public int getIdReserva()
 	{
 		return idReserva;
 	}
+	
 	public String toString()
 	{
-		return "idCliente:"+idCliente+"\nidReserva"+idReserva+"\nFecha de inicio:"+fechaEntrada+"\nFecha salida:"+fechaSalida+"\nCuenta:"+cuenta+"\nFecha Ocupacion: "+fechaOcupacion+ "\nHabitaciones reservadas:"+habitaciones.toString();
+		System.out.println("idCliente: "+idCliente+"\nidReserva: "+idReserva+"\nFecha de inicio: "+fechaEntrada+"\nFecha salida: "+fechaSalida+"\nFecha Ocupacion: "+fechaOcupacion);
+		for(int x=0;x<habitaciones.size();x++) {
+			System.out.print("Nro: "+habitaciones.get(x).getNroHabitacion());
+			System.out.println(" Tipo: "+habitaciones.get(x).getClass().getSimpleName());
+		}
+		System.out.println("\n");
+		return "";
 	}
+	
 	public void setFechaOcupacion() {
 		fechaOcupacion = new Date();
 	}
+	
 }

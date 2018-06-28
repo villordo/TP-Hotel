@@ -1,7 +1,9 @@
 package clases;
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import consumos.Consumo;
 import habitaciones.Habitacion;
 import persona.Cliente;
 
@@ -9,10 +11,11 @@ public class Hotel {
 	String nombre;
 	String direccion;
 	String telefono;
-	ArrayList<Cliente> clientes;
-	ArrayList<Usuario> usuarios;
-	ArrayList<Habitacion> habitaciones;
-	ArrayList<Reserva> reservas;
+	ArrayList <Cliente> clientes;
+	ArrayList <Usuario> usuarios;
+	ArrayList <Habitacion> habitaciones;
+	ArrayList <Reserva> reservas;
+	ArrayList <Consumo> consumos;
 	Login login;
 
 
@@ -25,6 +28,7 @@ public Hotel(String nombre, String direccion, String telefono)
 	usuarios = new ArrayList<Usuario>();
 	habitaciones = new ArrayList<Habitacion>();
 	reservas = new ArrayList<Reserva>();
+	consumos = new ArrayList<Consumo>();
 	login = null;
 }
 /**
@@ -59,6 +63,10 @@ public void agregarUsuario(Usuario u)
 {
 	usuarios.add(u);
 }
+
+public void agregarConsumo(Consumo c) {
+	consumos.add(c);
+}
 /**
  * Muestra los clientes existentes.
  */
@@ -86,7 +94,7 @@ public void mostrarHabitaciones()
 /**
  * Muestra las reservas vigentes.
  */
-public void mostrarReserva()
+public void mostrarReservas()
 {
 	int i=0;
 	int aux=reservas.size();
@@ -109,6 +117,9 @@ public void mostrarUsuarios()
 }
 public ArrayList<Reserva> getReservas(){
 	return reservas;
+}
+public void setReservas(ArrayList<Reserva> aux){
+	reservas = aux;
 }
 public ArrayList<Habitacion> getHabitaciones(){
 	return habitaciones;
