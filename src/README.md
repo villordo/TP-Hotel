@@ -5,9 +5,7 @@ El sistema organiza un Hotel,administrando sus Habitaciones y los Clientes.Permi
 
 ### Autor/es
 ---
-Jorge Villordo
-Franco Samudio
+-Jorge Villordo
+-Franco Samudio
 
-### Información adicional
----
-Esta es la sección que permite agregar más información de contexto al proyecto como alguna web de relevancia, proyectos similares o que hayan usado la misma tecnología.
+
